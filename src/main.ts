@@ -19,8 +19,14 @@ async function bootstrap() {
     }),
   );
 
+const frontendOrigins = configService
+    .get<string>('FRONTEND_ORIGIN', 'http://localhost:4200')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter((origin) => origin.length > 0);
+
   app.enableCors({
-    origin: configService.get<string>('FRONTEND_ORIGIN') ?? 'http://localhost:4200',
+    origin: frontendOrigins,
     credentials: true,
   });
 
